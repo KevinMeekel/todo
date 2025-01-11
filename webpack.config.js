@@ -6,7 +6,7 @@ module.exports = {
   output: {
     filename: 'main.js', // Ensure this matches your script in index.html
     path: path.resolve(__dirname, 'dist'),
-    publicPath: '/', // Required for webpack-dev-server
+    publicPath: './', // Required for webpack-dev-server
   },
   mode: 'development',
   devServer: {
