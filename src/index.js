@@ -2,7 +2,11 @@ import { format, set } from 'date-fns';
 import './assets/style.css';
 
 const now = new Date();
-console.log(format(now, 'yyyy-MM-dd'));
+console.log(format(now, 'yyyy-MM-dd HH:mm'));
+
+let taskIndex = localStorage.getItem('taskIndex') ? parseInt(localStorage.getItem('taskIndex'), 10) : 0;
+localStorage.setItem('taskIndex', taskIndex);
+console.log(`localStorage task index: ${localStorage.getItem('taskIndex')}`);
 
 document.addEventListener("DOMContentLoaded", () => {
     console.log("DOM fully loaded and parsed");
@@ -129,6 +133,9 @@ function createTask(inputValue) {
 
         const pendingCloseButton = document.createElement('button');
         pendingCloseButton.innerHTML = 'Complete Task';
+        pendingCloseButton.addEventListener('click', () => {
+          pendingTask.remove();
+        });
 
         const pendingSecondary = document.createElement('div');
         pendingSecondary.classList.add('pending-secondary');
@@ -159,6 +166,16 @@ function createTask(inputValue) {
         pendingSecondary.appendChild(pendingDescriptionSpan);
         pendingSecondary.appendChild(pendingDateSpan);
         pendingSecondary.appendChild(pendingPrioritySpan);
+
+        // localStorage
+        const taskString = JSON.stringify(inputValue);
+        console.log(`taskString variable: ${taskString}`);
+
+        taskIndex++;
+        localStorage.setItem(`task${taskIndex}`, taskString);
+        localStorage.setItem('taskIndex', taskIndex);
+        console.log(`taskIndex variable: ${taskIndex}`);
+        console.log(`localStorage task index: ${localStorage.getItem('taskIndex')}`);
 
     } else {
         console.log('Title is required');
